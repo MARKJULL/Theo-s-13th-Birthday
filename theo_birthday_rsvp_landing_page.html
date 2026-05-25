@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RSVP to Theo's 13th Birthday</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Black+Ops+One&family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --black: #050505;
+      --charcoal: #111315;
+      --lime: #9cff00;
+      --purple: #7b2cff;
+      --white: #f4f4f4;
+      --muted: #c9c9c9;
+      --danger: #ff3b3b;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: "Oswald", Arial, sans-serif;
+      color: var(--white);
+      background:
+        radial-gradient(circle at 15% 10%, rgba(156, 255, 0, 0.25), transparent 22%),
+        radial-gradient(circle at 90% 20%, rgba(123, 44, 255, 0.25), transparent 25%),
+        linear-gradient(135deg, #020202, #151515 55%, #050505);
+      overflow-x: hidden;
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.35;
+      background-image:
+        linear-gradient(35deg, transparent 0 92%, rgba(156,255,0,.85) 92% 94%, transparent 94%),
+        radial-gradient(circle, rgba(255,255,255,.22) 1px, transparent 1px);
+      background-size: 110px 110px, 18px 18px;
+      mix-blend-mode: screen;
+    }
+
+    body::after {
+      opacity: 0.5;
+      background:
+        radial-gradient(circle at 18% 45%, var(--lime) 0 6px, transparent 7px),
+        radial-gradient(circle at 21% 48%, var(--lime) 0 3px, transparent 4px),
+        radial-gradient(circle at 79% 65%, var(--purple) 0 7px, transparent 8px),
+        radial-gradient(circle at 84% 70%, var(--purple) 0 3px, transparent 4px);
+    }
+
+    .page {
+      width: min(1100px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 28px 0 48px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr 1.05fr;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .invite-thumb {
+      min-height: 540px;
+      border: 2px solid rgba(156,255,0,.7);
+      border-radius: 28px;
+      overflow: hidden;
+      position: relative;
+      background: #101010;
+      box-shadow: 0 30px 80px rgba(0,0,0,.55);
+      text-decoration: none;
+      color: var(--white);
+      display: block;
+      isolation: isolate;
+    }
+
+    .poster-link img {
+      width: 100%;
+      height: 100%;
+      min-height: 540px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .poster-overlay {
+      position: absolute;
+      left: 18px;
+      right: 18px;
+      bottom: 18px;
+      background: rgba(0,0,0,.78);
+      border: 2px solid var(--lime);
+      border-radius: 18px;
+      padding: 16px 18px;
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .7px;
+      text-align: center;
+      box-shadow: 0 0 30px rgba(156,255,0,.35);
+    }
+
+    .invite-thumb::before {
+      content: "";
+      position: absolute;
+      width: 520px;
+      height: 520px;
+      right: -210px;
+      top: -160px;
+      background:
+        radial-gradient(circle, rgba(156,255,0,.95) 0 7%, transparent 8%),
+        conic-gradient(from 30deg, transparent, rgba(156,255,0,.35), transparent, rgba(123,44,255,.4), transparent);
+      filter: blur(.4px);
+      z-index: -1;
+      transform: rotate(-18deg);
+    }
+
+    .invite-thumb::after {
+      content: "PAINT. PLAY. WIN.";
+      position: absolute;
+      right: -30px;
+      bottom: 70px;
+      transform: rotate(-11deg);
+      font-family: "Black Ops One", system-ui;
+      font-size: clamp(42px, 7vw, 86px);
+      color: rgba(156,255,0,.16);
+      line-height: .82;
+      max-width: 420px;
+      text-align: right;
+      z-index: -1;
+    }
+
+    .badge {
+      width: 124px;
+      height: 124px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: var(--lime);
+      color: var(--black);
+      font-family: "Black Ops One", system-ui;
+      font-size: 54px;
+      transform: rotate(-7deg);
+      box-shadow: 0 0 0 10px rgba(156,255,0,.13), 0 0 40px rgba(156,255,0,.55);
+    }
+
+    .thumb-copy h1 {
+      margin: 22px 0 0;
+      font-family: "Black Ops One", system-ui;
+      text-transform: uppercase;
+      font-size: clamp(54px, 9vw, 96px);
+      line-height: .82;
+      letter-spacing: -2px;
+      text-shadow: 4px 4px 0 rgba(0,0,0,.7);
+    }
+
+    .thumb-copy h1 span {
+      color: var(--lime);
+      display: block;
+      font-size: 1.25em;
+    }
+
+    .thumb-copy p {
+      margin: 18px 0 0;
+      display: inline-block;
+      padding: 10px 16px;
+      background: var(--purple);
+      color: var(--white);
+      font-family: "Bebas Neue", Impact, sans-serif;
+      font-size: clamp(28px, 5vw, 42px);
+      letter-spacing: 1px;
+      transform: rotate(-2deg);
+      box-shadow: 9px 9px 0 rgba(156,255,0,.65);
+    }
+
+    .click-cta {
+      align-self: flex-start;
+      background: rgba(0,0,0,.7);
+      border: 2px solid var(--lime);
+      border-radius: 18px;
+      padding: 14px 18px;
+      font-size: 22px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: .6px;
+    }
+
+    .panel {
+      background: rgba(8, 8, 8, 0.84);
+      border: 1px solid rgba(255,255,255,.14);
+      border-radius: 28px;
+      padding: 30px;
+      box-shadow: 0 30px 80px rgba(0,0,0,.45);
+      backdrop-filter: blur(7px);
+    }
+
+    .eyebrow {
+      color: var(--lime);
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+
+    .panel h2 {
+      margin: 0;
+      font-family: "Black Ops One", system-ui;
+      text-transform: uppercase;
+      font-size: clamp(38px, 6vw, 68px);
+      line-height: .9;
+    }
+
+    .details {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
+      margin: 24px 0;
+    }
+
+    .detail-card {
+      padding: 15px;
+      border: 1px solid rgba(156,255,0,.35);
+      border-radius: 16px;
+      background: rgba(255,255,255,.045);
+    }
+
+    .detail-card strong {
+      display: block;
+      color: var(--lime);
+      text-transform: uppercase;
+      font-size: 13px;
+      letter-spacing: 1.4px;
+    }
+
+    .detail-card span {
+      display: block;
+      margin-top: 3px;
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    form {
+      display: grid;
+      gap: 15px;
+    }
+
+    label {
+      display: grid;
+      gap: 7px;
+      color: var(--muted);
+      font-size: 14px;
+      letter-spacing: .6px;
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+
+    input,
+    textarea {
+      width: 100%;
+      border: 1px solid rgba(255,255,255,.18);
+      background: rgba(0,0,0,.62);
+      color: var(--white);
+      border-radius: 14px;
+      padding: 14px 15px;
+      font: 600 18px "Oswald", Arial, sans-serif;
+      outline: none;
+    }
+
+    input:focus,
+    textarea:focus {
+      border-color: var(--lime);
+      box-shadow: 0 0 0 4px rgba(156,255,0,.13);
+    }
+
+    textarea {
+      min-height: 98px;
+      resize: vertical;
+    }
+
+    .rsvp-options {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .radio-card {
+      position: relative;
+      cursor: pointer;
+    }
+
+    .radio-card input {
+      position: absolute;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .radio-card span {
+      display: block;
+      padding: 15px;
+      text-align: center;
+      border-radius: 16px;
+      border: 2px solid rgba(255,255,255,.18);
+      background: rgba(255,255,255,.06);
+      color: var(--white);
+      font-size: 20px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .radio-card input:checked + span {
+      border-color: var(--lime);
+      background: rgba(156,255,0,.18);
+      box-shadow: 0 0 28px rgba(156,255,0,.2);
+    }
+
+    .actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      align-items: center;
+      margin-top: 4px;
+    }
+
+    .btn,
+    button {
+      border: 0;
+      border-radius: 16px;
+      padding: 16px 18px;
+      font: 700 19px "Oswald", Arial, sans-serif;
+      text-transform: uppercase;
+      letter-spacing: .8px;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      transition: transform .15s ease, box-shadow .15s ease;
+    }
+
+    .btn:hover,
+    button:hover {
+      transform: translateY(-2px);
+    }
+
+    .waiver {
+      background: var(--purple);
+      color: var(--white);
+      border: 3px solid var(--lime);
+      font-size: 25px;
+      padding: 22px 20px;
+      box-shadow: 8px 8px 0 rgba(156,255,0,.8), 0 0 34px rgba(123,44,255,.45);
+      animation: waiverPulse 1.8s ease-in-out infinite;
+    }
+
+    @keyframes waiverPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.025); }
+    }
+
+    button {
+      background: var(--lime);
+      color: var(--black);
+      box-shadow: 8px 8px 0 rgba(123,44,255,.7);
+    }
+
+    .success {
+      display: none;
+      margin-top: 18px;
+      padding: 18px;
+      border-radius: 18px;
+      border: 2px solid var(--lime);
+      background: rgba(156,255,0,.14);
+      font-size: 24px;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .error {
+      display: none;
+      margin-top: 18px;
+      padding: 14px;
+      border-radius: 14px;
+      border: 2px solid var(--danger);
+      background: rgba(255,59,59,.12);
+      color: #ffdede;
+      font-weight: 700;
+    }
+
+    .fine-print {
+      margin-top: 18px;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.45;
+    }
+
+    @media (max-width: 880px) {
+      .hero { grid-template-columns: 1fr; }
+      .invite-thumb { min-height: 420px; }
+      .details, .actions, .rsvp-options { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <section class="hero">
+      <a class="invite-thumb poster-link" href="#rsvp" aria-label="Click here to RSVP to Theo's Birthday">
+        <!-- Save the attached invite poster in the same GitHub folder as this HTML file and name it: theo-invite-poster.png -->
+        <img src="theo-invite-poster.png" alt="Theo's 13th Birthday Paintball Invitation Poster" />
+        <div class="poster-overlay">Click here to RSVP to Theo's Birthday</div>
+      </a>
+
+      <section class="panel" id="rsvp">
+        <p class="eyebrow">Lock in your spot</p>
+        <h2>RSVP for Theo's 13th Birthday</h2>
+
+        <div class="details" aria-label="Party details">
+          <div class="detail-card"><strong>Date</strong><span>Thursday, June 12</span></div>
+          <div class="detail-card"><strong>Time</strong><span>2:00 PM - 6:00 PM</span></div>
+          <div class="detail-card"><strong>Location</strong><span>Bragg Creek Paintball</span></div>
+          <div class="detail-card"><strong>Pick-up</strong><span>Calgary Academy at 6:00 PM</span></div>
+        </div>
+
+        <!-- Replace YOUR_FORMSPREE_ENDPOINT with your Formspree form URL, for example: https://formspree.io/f/abcdwxyz -->
+        <form id="rsvpForm" action="https://formspree.io/f/YOUR_FORMSPREE_ENDPOINT" method="POST">
+          <label>
+            Your Child's Name
+            <input type="text" name="child_name" id="childName" autocomplete="off" required />
+          </label>
+
+          <label>
+            Parent's Name
+            <input type="text" name="parent_name" autocomplete="name" required />
+          </label>
+
+          <label>
+            Parent's Phone Number
+            <input type="tel" name="parent_phone" autocomplete="tel" required />
+          </label>
+
+          <div class="rsvp-options" role="radiogroup" aria-label="RSVP response">
+            <label class="radio-card">
+              <input type="radio" name="rsvp_status" value="My child is in!" required />
+              <span>My child is in!</span>
+            </label>
+            <label class="radio-card">
+              <input type="radio" name="rsvp_status" value="My child can't make it" required />
+              <span>My child can't make it</span>
+            </label>
+          </div>
+
+          <label>
+            Special Notes, Allergies, etc.
+            <textarea name="special_notes" placeholder="Anything we should know?"></textarea>
+          </label>
+
+          <input type="hidden" name="event" value="Theo's 13th Birthday at Bragg Creek Paintball" />
+
+          <div class="actions">
+            <a class="btn waiver" href="https://braggcreekpaintball.com/download-waiver" target="_blank" rel="noopener">Complete Waiver</a>
+            <button type="submit">Submit RSVP</button>
+          </div>
+        </form>
+
+        <div class="success" id="successMessage" aria-live="polite"></div>
+        <div class="error" id="errorMessage" aria-live="polite">Something went wrong. Please try again or text Patrice at 403-680-7924.</div>
+
+        <p class="fine-print">
+          Going directly after school. Parents pick up at Calgary Academy at 6:00 PM. RSVP contact: Patrice 403-680-7924.
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const form = document.getElementById('rsvpForm');
+    const successMessage = document.getElementById('successMessage');
+    const errorMessage = document.getElementById('errorMessage');
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      successMessage.style.display = 'none';
+      errorMessage.style.display = 'none';
+
+      const childName = document.getElementById('childName').value.trim() || "Your child's";
+      const formData = new FormData(form);
+
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: formData,
+          headers: { 'Accept': 'application/json' }
+        });
+
+        if (!response.ok) throw new Error('Form submission failed');
+
+        form.reset();
+        successMessage.textContent = `${childName}'s RSVP has been accepted, we can't wait to celebrate Theo together!`;
+        successMessage.style.display = 'block';
+        successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      } catch (error) {
+        errorMessage.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
